@@ -1,15 +1,14 @@
-# intracodic/.github
+# infeed8/.github
 
-Organization-wide defaults for every repository in the Intracodic organization.
+Vorgaben für alle Repositories der Organisation Infeed8.
 
-| Path | Purpose |
+| Pfad | Zweck |
 | --- | --- |
-| `SECURITY.md` | How to report a vulnerability. Used by every repository without its own policy |
-| `SUPPORT.md` | Where to get help |
-| `CODE_OF_CONDUCT.md` | Expected behaviour and how to report a breach |
-| `CONTRIBUTING.md` | Branch, commit and pull request conventions |
-| `.github/ISSUE_TEMPLATE/` | Bug report and feature request forms; blank issues are off, the security policy is linked automatically |
-| `.github/PULL_REQUEST_TEMPLATE.md` | Default pull request description |
+| `CONTRIBUTING.md` | Regeln für Vorgänge, Branches, Commits und Pull Requests |
+| `.github/PULL_REQUEST_TEMPLATE.md` | Vorlage für die Beschreibung eines Pull Requests |
+| `SECURITY.md` | Meldeweg für Sicherheitslücken. Gilt für jedes Repository ohne eigene Regelung |
+| `SUPPORT.md` | Wege zu Hilfe |
+| `CODE_OF_CONDUCT.md` | Erwartetes Verhalten und Meldeweg bei Verstößen |
+| `.github/ISSUE_TEMPLATE/` | Formulare für Fehlerberichte und Wünsche. Leere Issues sind aus, die Sicherheitsrichtlinie ist automatisch verlinkt |
 
-A repository that has its own copy of one of these files uses that copy instead.
-The defaults also apply to private repositories. This repository itself must stay **public**.
+Hat ein Repository eine eigene Fassung einer dieser Dateien, gilt dort die eigene Fassung. Die Vorgaben gelten auch für private Repositories. Dieses Repository muss öffentlich bleiben.

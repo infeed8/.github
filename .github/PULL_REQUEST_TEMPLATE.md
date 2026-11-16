@@ -1,17 +1,22 @@
-## What
+## Vorgang
 
-<!-- What does this change do? -->
+<!-- Schlüssel des Vorgangs in Jira, zum Beispiel NEXUS-12. Der Titel beginnt mit derselben ID. -->
 
-## Why
+## Was
 
-<!-- Link the issue or explain the reason. Closes #... -->
+<!-- Was ändert sich? -->
 
-## How it was tested
+## Warum
 
-<!-- Steps, tests added, environments checked. -->
+<!-- Grund oder Problem. -->
 
-## Checklist
+## Wie geprüft
 
-- [ ] Tests pass locally
-- [ ] Documentation updated where needed
-- [ ] No secrets, credentials or customer data in the diff
+<!-- Schritte, neue Tests, geprüfte Umgebungen. -->
+
+## Checkliste
+
+- [ ] Titel hat die Form `<ID>: <Gegenstand> <Verb in der Grundform>`
+- [ ] Tests laufen lokal durch
+- [ ] Dokumentation, Entscheidungen und Diagramme sind nachgeführt, wo nötig
+- [ ] Keine Zugangsdaten und keine Kundendaten im Diff
