@@ -1,6 +1,6 @@
 # Code of conduct
 
-Intracodic repositories are workplaces. Everyone who takes part, whether employee, customer or
+Infeed8 repositories are workplaces. Everyone who takes part, whether employee, customer or
 contributor, is expected to:
 
 - stay respectful and professional, also when disagreeing
