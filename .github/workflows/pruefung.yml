@@ -1,0 +1,13 @@
+name: Prüfung
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  namensregeln:
+    uses: ./.github/workflows/namensregeln.yml
