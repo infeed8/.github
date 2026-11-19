@@ -1,0 +1,61 @@
+name: Namensregeln
+
+# Wiederverwendbar: jedes Repository ruft diese Datei aus seiner pruefung.yml auf.
+# Sie prüft Titel, Branch und Commits eines Pull Requests nach Kapitel 3.2 der Namens- und Ablagekonventionen.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  namensregeln:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Titel, Branch und Commits prüfen
+        shell: pwsh
+        env:
+          TITEL: ${{ github.event.pull_request.title }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+          NUMMER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $fehler = @()
+          $idMuster = '[A-Z][A-Z0-9]*-[0-9]+'
+          $id = $null
+          
+          # Kapitel 3.2: Titel '<ID>: <Gegenstand> <Verb in der Grundform>'
+          if ($env:TITEL -match "^($idMuster): .+") {
+            $id = $Matches[1]
+          } else {
+            $fehler += "Titel '$($env:TITEL)': Die Form '<ID>: <Gegenstand> <Verb in der Grundform>' fehlt."
+          }
+          
+          # Kapitel 3.2: Branch 'paket/<ID>-<kurzbeschreibung>', höchstens fünf Wörter
+          if ($env:BRANCH -match "^paket/($idMuster)-[a-z0-9]+(-[a-z0-9]+){0,4}$") {
+            if ($id -and $Matches[1] -ne $id) {
+              $fehler += "Branch und Titel nennen verschiedene Vorgänge: $($Matches[1]) und $id."
+            }
+          } else {
+            $fehler += "Branch '$($env:BRANCH)': Die Form 'paket/<ID>-<kurzbeschreibung>' mit höchstens fünf Wörtern fehlt."
+          }
+          
+          # Kapitel 3.2: jeder Commit beginnt mit der ID des Vorgangs; Merge- und Revert-Commits bleiben frei
+          $zeilen = gh api --paginate "repos/$($env:REPO)/pulls/$($env:NUMMER)/commits" --jq '.[] | "\(.sha[0:7])\t\(.parents | length)\t\(.commit.message | split("\n")[0])"'
+          if ($LASTEXITCODE -ne 0) { throw 'Die Commits des Pull Requests lassen sich nicht lesen.' }
+          $erwartet = if ($id) { [regex]::Escape($id) } else { $idMuster }
+          foreach ($zeile in $zeilen) {
+            $teile = $zeile -split "`t", 3
+            if ([int]$teile[1] -gt 1 -or $teile[2] -like 'Revert *') { continue }
+            if ($teile[2] -notmatch "^${erwartet}: .+") {
+              $fehler += "Commit $($teile[0]) '$($teile[2])': Die Form '<ID>: <Gegenstand> <Verb in der Grundform>' mit der ID des Pull Requests fehlt."
+            }
+          }
+          
+          if ($fehler.Count -gt 0) {
+            foreach ($f in $fehler) { Write-Host "::error::$f" }
+            throw "Die Namensregeln aus Kapitel 3.2 sind verletzt ($($fehler.Count) Abweichungen)."
+          }
+          Write-Host 'Titel, Branch und Commits entsprechen Kapitel 3.2.'
